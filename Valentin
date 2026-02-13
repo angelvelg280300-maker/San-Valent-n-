@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Para ti 💖</title>
+  <style>
+    :root{
+      --bg1:#0b0014;
+      --bg2:#2b0036;
+      --pink:#ff4d8d;
+      --pink2:#ff77b7;
+      --text:#ffeaf4;
+      --muted:#ffd1e6;
+      --card: rgba(255,255,255,.08);
+      --stroke: rgba(255,255,255,.16);
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100svh;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 900px at 20% 20%, rgba(255,77,141,.25), transparent 60%),
+        radial-gradient(900px 700px at 80% 30%, rgba(255,119,183,.18), transparent 55%),
+        linear-gradient(160deg, var(--bg1), var(--bg2));
+      overflow:hidden;
+    }
+
+    .wrap{
+      position:relative;
+      min-height:100svh;
+      display:grid;
+      place-items:center;
+      padding:24px;
+    }
+
+    .card{
+      width:min(520px, 92vw);
+      background:var(--card);
+      border:1px solid var(--stroke);
+      border-radius:22px;
+      padding:22px 18px 18px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 20px 60px rgba(0,0,0,.35);
+      text-align:center;
+    }
+
+    .title{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      font-weight:700;
+      letter-spacing:.3px;
+      margin:0 0 8px;
+      font-size:18px;
+      color:var(--muted);
+    }
+
+    .subtitle{
+      margin:0 0 18px;
+      font-size:14px;
+      opacity:.92;
+    }
+
+    /* Heart */
+    .heart-area{
+      display:grid;
+      place-items:center;
+      margin:10px 0 14px;
+    }
+
+    .heart{
+      width:170px;
+      height:170px;
+      position:relative;
+      transform: rotate(-45deg);
+      background: linear-gradient(135deg, var(--pink), var(--pink2));
+      border-radius:18px 18px 18px 18px;
+      box-shadow:
+        0 18px 40px rgba(255,77,141,.25),
+        0 0 60px rgba(255,77,141,.12);
+      animation: beat 1.12s infinite;
+      cursor:pointer;
+      user-select:none;
+    }
+    .heart:before, .heart:after{
+      content:"";
+      position:absolute;
+      width:170px;
+      height:170px;
+      background: inherit;
+      border-radius: 50%;
+    }
+    .heart:before{ top:-85px; left:0; }
+    .heart:after{ top:0; left:85px; }
+
+    @keyframes beat{
+      0%, 100%{ transform: rotate(-45deg) scale(1); }
+      25%{ transform: rotate(-45deg) scale(1.06); }
+      50%{ transform: rotate(-45deg) scale(.99); }
+      75%{ transform: rotate(-45deg) scale(1.04); }
+    }
+
+    .names{
+      position:absolute;
+      inset:0;
+      display:grid;
+      place-items:center;
+      transform: rotate(45deg);
+      text-align:center;
+      padding:18px;
+      pointer-events:none;
+    }
+    .names .big{
+      font-size:18px;
+      font-weight:800;
+      text-shadow: 0 8px 22px rgba(0,0,0,.35);
+      line-height:1.15;
+    }
+    .names .tiny{
+      margin-top:6px;
+      font-size:13px;
+      opacity:.95;
+      text-shadow: 0 8px 22px rgba(0,0,0,.35);
+    }
+
+    .msg{
+      margin: 8px 0 14px;
+      padding:12px 14px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+      font-size:15px;
+      line-height:1.35;
+    }
+
+    .actions{
+      display:flex;
+      gap:10px;
+      justify-content:center;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+    button{
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.10);
+      color: var(--text);
+      padding:10px 12px;
+      border-radius:14px;
+      font-weight:650;
+      cursor:pointer;
+      transition: transform .08s ease, background .2s ease;
+    }
+    button:hover{ background: rgba(255,255,255,.14); }
+    button:active{ transform: scale(.98); }
+
+    .hint{
+      margin-top:10px;
+      font-size:12px;
+      opacity:.85;
+    }
+
+    /* Floating emojis */
+    .float{
+      position:absolute;
+      left:0;
+      top:0;
+      pointer-events:none;
+      font-size:20px;
+      filter: drop-shadow(0 10px 14px rgba(0,0,0,.35));
+      animation: rise linear forwards;
+      opacity:.95;
+    }
+    @keyframes rise{
+      from { transform: translateY(20px) translateX(0) scale(.95); opacity:0; }
+      10% { opacity:1; }
+      to   { transform: translateY(-120vh) translateX(var(--dx)) scale(1.1); opacity:0; }
+    }
+
+    /* Confetti (simple) */
+    .confetti{
+      position:absolute;
+      width:8px; height:12px;
+      border-radius:2px;
+      opacity:.95;
+      animation: fall linear forwards;
+      pointer-events:none;
+    }
+    @keyframes fall{
+      from { transform: translateY(-10vh) rotate(0deg); opacity:1; }
+      to { transform: translateY(110vh) rotate(720deg); opacity:0; }
+    }
+
+    /* Footer sparkle */
+    .spark{
+      position:absolute;
+      inset:0;
+      background: radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,.4), transparent 60%),
+                  radial-gradient(1px 1px at 70% 30%, rgba(255,255,255,.35), transparent 60%),
+                  radial-gradient(1px 1px at 35% 70%, rgba(255,255,255,.28), transparent 60%),
+                  radial-gradient(1px 1px at 85% 75%, rgba(255,255,255,.25), transparent 60%);
+      opacity:.65;
+      pointer-events:none;
+    }
+  </style>
+</head>
+<body>
+  <div class="spark"></div>
+  <div class="wrap">
+    <div class="card">
+      <p class="title"><span id="topEmoji">💘</span> Amor & amistad <span id="topEmoji2">✨</span></p>
+      <p class="subtitle" id="sub">Abrí esto porque… me gustas un montón 😳</p>
+
+      <div class="heart-area">
+        <div class="heart" id="heart" aria-label="corazón">
+          <div class="names">
+            <div>
+              <div class="big" id="namesLine">Tú + Yo</div>
+              <div class="tiny" id="dateLine">Hoy y siempre 🫶</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="msg" id="msg">Eres mi lugar favorito. Gracias por existir. 💖</div>
+
+      <div class="actions">
+        <button id="copyLink">Copiar link con nuestros nombres 🔗</button>
+        <button id="shareBtn">Compartir 📲</button>
+        <button id="moreEmojis">Más emojis ✨</button>
+      </div>
+
+      <div class="hint">Tip: toca el corazón para confeti 🎉</div>
+    </div>
+  </div>
+
+  <script>
+    // ===================== PERSONALIZA AQUÍ (o vía URL) =====================
+    const defaults = {
+      me: "Tu nombre",
+      partner: "Su nombre",
+      message: "Eres mi lugar favorito. Gracias por existir. 💖",
+      subtitle: "Abrí esto porque… me gustas un montón 😳",
+      dateLine: "14 de febrero y siempre 🫶",
+      emojis: ["💖","🌹","✨","💘","🥰","🫶","😍","🐻","🍓","💐","💫"]
+    };
+
+    // Lee parámetros del link: ?me=...&p=...&m=...
+    const params = new URLSearchParams(location.search);
+    const safeText = (s) => (s ?? "").toString().slice(0, 80).replace(/[<>]/g, ""); // mini-sanitizado
+
+    const state = {
+      me: safeText(params.get("me")) || defaults.me,
+      partner: safeText(params.get("p")) || safeText(params.get("partner")) || defaults.partner,
+      message: safeText(params.get("m")) || safeText(params.get("msg")) || defaults.message,
+      subtitle: safeText(params.get("s")) || defaults.subtitle,
+      dateLine: safeText(params.get("d")) || defaults.dateLine,
+      emojis: defaults.emojis
+    };
+
+    // ===================== PINTAR CONTENIDO =====================
+    const elNames = document.getElementById("namesLine");
+    const elMsg = document.getElementById("msg");
+    const elSub = document.getElementById("sub");
+    const elDate = document.getElementById("dateLine");
+    const elTop1 = document.getElementById("topEmoji");
+    const elTop2 = document.getElementById("topEmoji2");
+
+    elNames.textContent = `${state.me} + ${state.partner}`;
+    elMsg.textContent = state.message;
+    elSub.textContent = state.subtitle;
+    elDate.textContent = state.dateLine;
+
+    elTop1.textContent = pick(state.emojis);
+    elTop2.textContent = pick(state.emojis);
+
+    function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+    // ===================== EMOJIS FLOTANDO =====================
+    let emojiTimer = null;
+    function startEmojis(speedMs = 340){
+      stopEmojis();
+      emojiTimer = setInterval(spawnEmoji, speedMs);
+    }
+    function stopEmojis(){
+      if (emojiTimer) clearInterval(emojiTimer);
+      emojiTimer = null;
+    }
+    function spawnEmoji(){
+      const e = document.createElement("div");
+      e.className = "float";
+      e.textContent = pick(state.emojis);
+      const x = Math.random() * 100; // vw
+      const dur = 6 + Math.random() * 4; // seconds
+      const dx = (Math.random()*60 - 30).toFixed(0) + "px";
+      e.style.left = x + "vw";
+      e.style.top = (95 + Math.random()*10) + "vh";
+      e.style.setProperty("--dx", dx);
+      e.style.animationDuration = dur + "s";
+      document.body.appendChild(e);
+      setTimeout(()=> e.remove(), dur*1000 + 400);
+    }
+    startEmojis();
+
+    // ===================== CONFETI AL TOCAR CORAZÓN =====================
+    const heart = document.getElementById("heart");
+    heart.addEventListener("click", () => {
+      burstConfetti(110);
+      // mini “punch”
+      heart.style.animation = "none";
+      void heart.offsetWidth;
+      heart.style.animation = "";
+    });
+
+    function burstConfetti(n=90){
+      for(let i=0;i<n;i++){
+        const c = document.createElement("div");
+        c.className = "confetti";
+        const x = 20 + Math.random()*60; // vw (centro)
+        const dur = 2.2 + Math.random()*1.6;
+        c.style.left = x + "vw";
+        c.style.top = "-5vh";
+        c.style.animationDuration = dur + "s";
+        c.style.background = `hsl(${Math.floor(Math.random()*360)}, 90%, 70%)`;
+        c.style.width = (6 + Math.random()*6).toFixed(0) + "px";
+        c.style.height = (8 + Math.random()*10).toFixed(0) + "px";
+        document.body.appendChild(c);
+        setTimeout(()=> c.remove(), dur*1000 + 300);
+      }
+    }
+
+    // ===================== BOTONES =====================
+    const copyBtn = document.getElementById("copyLink");
+    const shareBtn = document.getElementById("shareBtn");
+    const moreBtn = document.getElementById("moreEmojis");
+
+    function buildLink(){
+      const url = new URL(location.href);
+      url.searchParams.set("me", state.me);
+      url.searchParams.set("p", state.partner);
+      url.searchParams.set("m", state.message);
+      url.searchParams.set("s", state.subtitle);
+      url.searchParams.set("d", state.dateLine);
+      return url.toString();
+    }
+
+    copyBtn.addEventListener("click", async () => {
+      const link = buildLink();
+      try{
+        await navigator.clipboard.writeText(link);
+        copyBtn.textContent = "¡Listo! Link copiado ✅";
+        setTimeout(()=> copyBtn.textContent = "Copiar link con nuestros nombres 🔗", 1600);
+      }catch{
+        alert("No pude copiar automáticamente 😅 Copia manual: " + link);
+      }
+    });
+
+    shareBtn.addEventListener("click", async () => {
+      const link = buildLink();
+      if (navigator.share){
+        try{
+          await navigator.share({ title: "Para ti 💖", text: "Te hice esto 🥰", url: link });
+        }catch{}
+      }else{
+        // fallback
+        try{
+          await navigator.clipboard.writeText(link);
+          alert("Tu cel no soporta compartir directo. Ya copié el link ✅");
+        }catch{
+          alert(link);
+        }
+      }
+    });
+
+    moreBtn.addEventListener("click", () => {
+      // Acelera emojis por 4s
+      startEmojis(160);
+      setTimeout(()=> startEmojis(340), 4000);
+      burstConfetti(60);
+    });
+  </script>
+</body>
+</html>
